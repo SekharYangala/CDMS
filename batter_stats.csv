@@ -1,0 +1,6 @@
+pid,matches_played,total_runs,batting_style,batting_avg,highest_score,fifties,centuries,sixes,fours,no_of_stumpings
+1,50,1800,"Right-hand",36.00,120,12,3,45,160,0
+3,75,2800,"Right-hand",42.30,150,20,5,78,250,0
+5,40,1100,"Right-hand",27.50,95,6,0,20,90,0
+6,90,3200,"Right-hand",40.20,140,25,8,102,290,0
+7,55,1650,"Right-hand",33.00,110,10,2,50,170,0
