@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Stats</title>
+    <link rel="stylesheet" href="style4.css">
+</head>
+<body>
+    <h1>Welcome to IPL Stats Dashboard</h1>
+
+    <img src="ipl_player_logo.webp" class="ipl-logo" alt="IPL Logo">
+
+    <div class="buttons-container">
+        <button onclick="navigate('team_stats.html')">Team Stats</button>
+        <button onclick="navigate('player_stats.html')">Player Stats</button>
+        <button onclick="navigate('pointstable.html')">Points Table</button>
+        <button onclick="navigate('playoffs.html')">Playoff Teams</button>
+        <button onclick="navigate('OverallStats.html')">OverallStats</button>
+        <button onclick="navigate('t.html')">TeamvsTeam</button>
+        <button onclick="navigate('y.html')">2025 Matches</button>
+        <button onclick="navigate('SKY.html')">Update 2025 Stats</button>
+    </div>
+
+    <script>
+        function navigate(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>

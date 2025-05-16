@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 Match Entry</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            margin: auto;
+            width: 50%;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        input, select {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid gray;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+    </style>
+    <script>
+         function adminLogin(event) {
+    event.preventDefault();
+    const username = document.getElementById("admin_user").value;
+    const password = document.getElementById("admin_pass").value;
+    
+    if (username === "admin" && password === "admin123") {
+        document.getElementById("login-form").style.display = "none"; // Hide login form
+        document.getElementById("match-form").style.display = "block"; // Show match form
+    } else {
+        alert("Invalid credentials!");
+    }
+}
+
+        function updateWinningTeam() {
+            let team1 = document.getElementById("team1_name").value;
+            let team2 = document.getElementById("team2_name").value;
+            let winTeamSelect = document.getElementById("winteam_name");
+            
+            winTeamSelect.innerHTML = "<option value=''>None</option>";
+            if (team1) winTeamSelect.innerHTML += `<option value="${team1}">${team1}</option>`;
+            if (team2) winTeamSelect.innerHTML += `<option value="${team2}">${team2}</option>`;
+        }
+        
+    
+    function validateAndSubmit(event) {
+        event.preventDefault(); // Prevent form from reloading the page
+
+        const match_no = document.getElementById("match_no").value;
+        const season_year = document.getElementById("season_year").value;
+        const team1_name = document.getElementById("team1_name").value;
+        const team2_name = document.getElementById("team2_name").value;
+        const winteam_name = document.getElementById("winteam_name").value;
+        const u_id = document.getElementById("u_id").value;
+        const stadium = document.getElementById("stadium").value;
+
+        // Validation checks
+        if (!match_no || !season_year || !team1_name || !team2_name || !stadium) {
+            alert("Please fill all required fields.");
+            return;
+        }
+        if (team1_name === team2_name) {
+            alert("Team 1 and Team 2 cannot be the same.");
+            return;
+        }
+
+        // Prepare JSON data
+        const matchData = {
+            match_no: match_no,
+            season_year: season_year,
+            team1_name: team1_name,
+            team2_name: team2_name,
+            winteam_name: winteam_name || null, // Optional field
+            u_id: u_id || null, // Optional field
+            stadium: stadium
+        };
+
+        // Send data to Flask backend
+        fetch("http://127.0.0.1:5000/add_match", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(matchData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert("Error: " + data.error);
+            } else {
+                alert("Match added successfully!");
+                document.querySelector("form").reset(); // Clear form
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+</script>
+
+</head>
+<body>
+    <div id="login-form">
+        <h2>Admin Login</h2>
+        <form onsubmit="adminLogin(event)">
+            <input type="text" id="admin_user" placeholder="Username" required><br>
+            <input type="password" id="admin_pass" placeholder="Password" required><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <!-- Hide Match Form Initially -->
+    <div id="match-form" style="display: none;">
+        <h2>2025 Matches</h2>
+        <form onsubmit="validateAndSubmit(event)">
+            <label>Match No:</label>
+            <input type="number" id="match_no" required><br>
+
+            <label>Season Year:</label>
+            <input type="number" id="season_year" value="2025" readonly><br>
+
+            <label>Team 1:</label>
+            <select id="team1_name" required onchange="updateWinningTeam()">
+                <option value="">Select Team</option>
+                <option value="Chennai Super Kings">Chennai Super Kings</option>
+                <option value="Kolkata Knight Riders">Kolkata Knight Riders</option>
+                <option value="Punjab Kings">Punjab Kings</option>
+                <option value="Rajasthan Royals">Rajasthan Royals</option>
+                <option value="Royal Challengers Bengaluru">Royal Challengers Bengaluru</option>
+                <option value="Delhi Capitals">Delhi Capitals</option>
+                <option value="Gujarat Titans">Gujarat Titans</option>
+                <option value="Lucknow Super Giants">Lucknow Super Giants</option>
+                <option value="Mumbai Indians">Mumbai Indians</option>
+                <option value="Sunrisers Hyderabad">Sunrisers Hyderabad</option>
+            </select><br>
+
+            <label>Team 2:</label>
+            <select id="team2_name" required onchange="updateWinningTeam()">
+                <option value="">Select Team</option>
+                <option value="Chennai Super Kings">Chennai Super Kings</option>
+                <option value="Kolkata Knight Riders">Kolkata Knight Riders</option>
+                <option value="Punjab Kings">Punjab Kings</option>
+                <option value="Rajasthan Royals">Rajasthan Royals</option>
+                <option value="Royal Challengers Bengaluru">Royal Challengers Bengaluru</option>
+                <option value="Delhi Capitals">Delhi Capitals</option>
+                <option value="Gujarat Titans">Gujarat Titans</option>
+                <option value="Lucknow Super Giants">Lucknow Super Giants</option>
+                <option value="Mumbai Indians">Mumbai Indians</option>
+                <option value="Sunrisers Hyderabad">Sunrisers Hyderabad</option>
+            </select><br>
+
+            <label>Winning Team:</label>
+            <select id="winteam_name">
+                <option value="">None</option>
+            </select><br>
+
+            <label>Umpire ID (Optional):</label>
+            <input type="number" id="u_id"><br>
+
+            <label>Stadium:</label>
+            <select id="stadium" required>
+                <option value="">Select Stadium</option>
+                <option value="MA Chidambaram Stadium">MA Chidambaram Stadium</option>
+                <option value="Eden Gardens">Eden Gardens</option>
+                <option value="IS Bindra Stadium">IS Bindra Stadium</option>
+                <option value="Sawai Mansingh Stadium">Sawai Mansingh Stadium</option>
+                <option value="M. Chinnaswamy Stadium">M. Chinnaswamy Stadium</option>
+                <option value="Arun Jaitley Stadium">Arun Jaitley Stadium</option>
+                <option value="Narendra Modi Stadium">Narendra Modi Stadium</option>
+                <option value="BRSABV Ekana Cricket Stadium">BRSABV Ekana Cricket Stadium</option>
+                <option value="Wankhede Stadium">Wankhede Stadium</option>
+                <option value="Rajiv Gandhi International Cricket Stadium">Rajiv Gandhi International Cricket Stadium</option>
+            </select><br>
+
+            <button type="submit">Add Match</button>
+        </form>
+    </div>
+</body>
+
+</html>
