@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,65 +58,3 @@
     </script>
 </body>
 </html>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cricket Stats</title>
-    <link rel="stylesheet" href="style6.css">
-</head>
-<body>
-    <h1>Player Statistics</h1>
-
-    <div class="buttons-container">
-        <button onclick="fetchStats('Most_matches_played')">Most Matches Played</button>
-        <button onclick="fetchStats('most_runs')">Most Runs</button>
-        <button onclick="fetchStats('highest_scores')">Highest Scores</button>
-        <button onclick="fetchStats('best_batting_avg')">Best Batting Avg</button>
-        <button onclick="fetchStats('most_centuries')">Most Centuries</button>
-        <button onclick="fetchStats('most_fifties')">Most Fifties</button>
-        <button onclick="fetchStats('most_sixes')">Most Sixes</button>
-        <button onclick="fetchStats('most_fours')">Most Fours</button>
-        <button onclick="fetchStats('most_wickets')">Most Wickets</button>
-        <button onclick="fetchStats('most_balls_bowled')">Most Balls Bowled</button>
-        <button onclick="fetchStats('five_wicket_hauls')">5 Wicket Hauls</button>
-        <button onclick="fetchStats('best_economy_rate')">Best Economy</button>
-    </div>
-
-    <div id="statsContainer"></div>
-
-    <script>
-        function fetchStats(statType) {
-            fetch(`http://127.0.0.1:5000/stats?category=${statType}`)
-                .then(response => response.json())
-                .then(data => {
-                    const container = document.getElementById("statsContainer");
-                    container.innerHTML = ""; // Clear previous results
-
-                    if (data.error) {
-                        container.innerHTML = `<p>${data.error}</p>`;
-                        return;
-                    }
-
-                    let tableHtml = `<h2>${statType.replace(/_/g, ' ').toUpperCase()}</h2>`;
-                    tableHtml += "<table border='1'><tr><th>Player</th><th>Team</th><th>Stat Value</th></tr>";
-
-                    data.forEach(stat => {
-                        tableHtml += `<tr>
-                            <td>${stat.name}</td>
-                            <td>${stat.team_name}</td>
-                            <td>${stat.stat_value}</td>
-                        </tr>`;
-                    });
-
-                    tableHtml += "</table>";
-                    container.innerHTML = tableHtml;
-                })
-                .catch(error => console.error("Error fetching stats:", error));
-        }
-    </script>
-</body>
-</html>
->>>>>>> 428c8bdaee0fdf276b8897c3c7eae19a60144c26

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,57 +50,3 @@
     </script>
 </body>
 </html>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Stats</title>
-    <link rel="stylesheet" href="style5.css">
-</head>
-<body>
-    <h1>Team Statistics</h1>
-    
-    <input type="text" id="teamNameInput" placeholder="Enter Team Name">
-    <button onclick="fetchTeamStats()">Search</button>
-
-    <div id="teamStatsContainer"></div>
-
-    <script>
-        function fetchTeamStats() {
-            const teamName = document.getElementById("teamNameInput").value.trim();
-            
-            if (teamName === "") {
-                alert("Please enter a team name!");
-                return;
-            }
-
-            fetch(`http://127.0.0.1:5000/team_stats?team_name=${teamName}`)
-                .then(response => response.json())
-                .then(data => {
-                    const container = document.getElementById("teamStatsContainer");
-                    container.innerHTML = ""; // Clear previous results
-
-                    if (data.error || data.length === 0) {
-                        container.innerHTML = "<p>No stats found for this team.</p>";
-                        return;
-                    }
-
-                    let stats = data[0];
-                    container.innerHTML = `
-                        <h2>${stats.team_name}</h2>
-                        <p><strong>Total Wins:</strong> ${stats.total_wins}</p>
-                        <p><strong>Total Matches:</strong> ${stats.total_matches}</p>
-                        <p><strong>Championships Won:</strong> ${stats.no_of_cups}</p>
-                        <p><strong>Win Percentage:</strong> ${stats.win_percentage}%</p>
-                         <p><strong>Home Ground:</strong> ${stats.home_ground}</p>
-
-                    `;
-                })
-                .catch(error => console.error("Error fetching team stats:", error));
-        }
-    </script>
-</body>
-</html>
->>>>>>> 428c8bdaee0fdf276b8897c3c7eae19a60144c26
