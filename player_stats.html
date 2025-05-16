@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,3 +88,94 @@
     </script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Stats</title>
+    <link rel="stylesheet" href="style4.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Search Player Stats</h1>
+
+        <div class="search-box">
+            <input type="text" id="playerNameInput" placeholder="Enter Player Name">
+            <button onclick="fetchPlayerStats()">Get Stats</button>
+        </div>
+
+        <div id="playerStatsContainer" class="stats-card"></div>
+    </div>
+
+    <script>
+        function fetchPlayerStats() {
+            let playerName = document.getElementById("playerNameInput").value.trim();
+            if (!playerName) {
+                alert("Please enter a player name!");
+                return;
+            }
+
+            console.log(`🔍 Searching for Player: ${playerName}`);
+
+            fetch(`http://127.0.0.1:5000/player_stats?name=${playerName}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(`📊 Player Stats Data: `, data);
+
+                    let container = document.getElementById("playerStatsContainer");
+                    if (data.length > 0) {
+                        let player = data[0];
+
+                        let statsHTML = `
+                            <h2>${player.player_name}</h2>
+                            <p><strong>Matches Played:</strong> ${player.matches_played}</p>`;
+
+                        if (player.role_id ===1) {
+                            statsHTML += `
+                                <p><strong>Runs:</strong> ${player.total_runs}</p>
+                                <p><strong>Fours:</strong> ${player.fours}</p>
+                                <p><strong>Sixes:</strong> ${player.sixes}</p>
+                                <p><strong>Fifties:</strong> ${player.fifties}</p>
+                                <p><strong>Centuries:</strong> ${player.centuries}</p>
+                                <p><strong>Highest Score:</strong> ${player.highest_score}</p>
+                            `;
+                        } else if (player.role_id===2) {
+                            statsHTML += `
+                                <p><strong>Wickets:</strong> ${player.wickets}</p>
+                                <p><strong>Balls_Bowled:</strong> ${player.balls_bowled}</p>
+                                <p><strong>Four-wicket-Hauls:</strong> ${player.four_wicket_haul}</p>
+                                <p><strong>Five-wicket-Hauls:</strong> ${player.five_wicket_hauls}</p>
+                                <p><strong>Bowling Average:</strong> ${player.bowling_avg}</p>
+                                <p><strong>Bowling Strike Rate:</strong> ${player.bowling_strike}</p>
+                                <p><strong>Runs Conceded:</strong> ${player.runs_conceded}</p>
+                            `;
+                        } else if (player.role_id===3 || player.role_id===4) {
+                            statsHTML += `
+                                <p><strong>Runs:</strong> ${player.total_runs}</p>
+                                <p><strong>Fours:</strong> ${player.fours}</p>
+                                <p><strong>Sixes:</strong> ${player.sixes}</p>
+                                 <p><strong>Fifties:</strong> ${player.fifties}</p>
+                                <p><strong>Centuries:</strong> ${player.centuries}</p>
+                                <p><strong>Highest Score:</strong> ${player.highest_score}</p>
+                                <p><strong>Wickets:</strong> ${player.wickets}</p>
+                                <p><strong>Bowling Average:</strong> ${player.bowling_avg}</p>
+                                <p><strong>Bowling Strike Rate:</strong> ${player.bowling_strike}</p>
+                                <p><strong>Runs Conceded:</strong> ${player.runs_conceded}</p>
+                                <p><strong>Four-wicket-Hauls:</strong> ${player.four_wicket_haul}</p>
+                                <p><strong>Five-wicket-Hauls:</strong> ${player.five_wicket_hauls}</p>
+                            `;
+                        }
+
+                        container.innerHTML = statsHTML;
+                    } else {
+                        container.innerHTML = "<p>No data found.</p>";
+                    }
+                })
+                .catch(error => console.error("❌ Fetch Error:", error));
+        }
+    </script>
+</body>
+</html>
+>>>>>>> 428c8bdaee0fdf276b8897c3c7eae19a60144c26

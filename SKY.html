@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -169,3 +170,176 @@ function updatePlayerStats(event) {
     </div>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Update Player Stats</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        form, #login-form {
+            background: white;
+            padding: 20px;
+            margin: auto;
+            width: 50%;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        input, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid gray;
+            font-size: 16px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+    </style>
+    <script>
+        function adminLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById("admin_user").value;
+            const password = document.getElementById("admin_pass").value;
+            
+            if (username === "admin" && password === "admin123") {
+                document.getElementById("login-form").style.display = "none";
+                document.getElementById("player-form").style.display = "block";
+            } else {
+                alert("Invalid credentials!");
+            }
+        }
+
+        function fetchPlayerStats() {
+    const playerName = document.getElementById("player_name").value.trim();
+    if (!playerName) {
+        alert("Please enter a player name.");
+        return;
+    }
+
+    fetch(`http://127.0.0.1:5000/player_stats?name=${playerName}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log("✅ API Response Received:", data);
+            
+            if (!data || data.length === 0) {
+                alert("Player not found!");
+            } else {
+                fillPlayerStats(data[0]);  // 👈 Fix: Access the first object in the array
+            }
+        })
+        .catch(error => console.error("❌ Fetch Error:", error));
+}
+
+function fillPlayerStats(data) {
+    console.log("📋 Filling form with data:", data);
+
+    const fields = [
+        "matches_played", "total_runs", "batting_avg", "highest_score",
+        "fifties", "centuries", "sixes", "fours", "no_of_stumpings",
+        "balls_bowled", "runs_conceded", "wickets", "bowling_avg",
+        "economy_rate", "bowling_strike", "four_wicket_haul", "five_wicket_hauls"
+    ];
+
+    fields.forEach(field => {
+        const element = document.getElementById(field);
+        if (element) {
+            element.value = data[field] !== undefined ? data[field] : "";
+            console.log(`✅ Updating ${field} to`, data[field]);  // Debugging log
+        }
+    });
+}
+
+function updatePlayerStats(event) {
+    event.preventDefault();
+
+    const playerName = document.getElementById("player_name").value.trim();
+    if (!playerName) {
+        alert("Player name is required!");
+        return;
+    }
+
+    const stats = {};
+    const inputs = document.querySelectorAll("#player-form input");
+
+    inputs.forEach(input => {
+        if (input.id !== "player_name") {  // Exclude player name from stats
+            stats[input.id] = input.value.trim();
+        }
+    });
+
+    const payload = {
+        player_name: playerName,  // Separate player name
+        stats: stats              // Nest stats in an object
+    };
+
+    console.log("📤 Sending Data to Backend:", payload);  // Debugging log
+
+    fetch("http://127.0.0.1:5000/update_player_stats", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload) // Convert object to JSON format
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("✅ Server Response:", data);  // Debugging log
+        alert(data.message || data.error);
+    })
+    .catch(error => console.error("❌ Error updating player stats:", error));
+}
+
+    </script>
+</head>
+<body>
+    <div id="login-form">
+        <h2>Admin Login</h2>
+        <form onsubmit="adminLogin(event)">
+            <input type="text" id="admin_user" placeholder="Username" required><br>
+            <input type="password" id="admin_pass" placeholder="Password" required><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    
+    <div id="player-form" style="display:none;">
+        <h2>Update Player Stats</h2>
+        <form onsubmit="updatePlayerStats(event)">
+            <input type="text" id="player_name" placeholder="Enter Player Name" required>
+            <button type="button" onclick="fetchPlayerStats()">Search</button><br>
+            
+            <input type="number" id="matches_played" placeholder="Matches Played" required><br>
+            <input type="number" id="total_runs" placeholder="Total Runs" required><br>
+            <input type="number" step="0.01" id="batting_avg" placeholder="Batting Average" required><br>
+            <input type="number" id="highest_score" placeholder="Highest Score" required><br>
+            <input type="number" id="fifties" placeholder="Fifties" required><br>
+            <input type="number" id="centuries" placeholder="Centuries" required><br>
+            <input type="number" id="sixes" placeholder="Sixes" required><br>
+            <input type="number" id="fours" placeholder="Fours" required><br>
+            <input type="number" id="no_of_stumpings" placeholder="Stumpings" required><br>
+            <input type="number" id="balls_bowled" placeholder="Balls Bowled"><br>
+            <input type="number" id="runs_conceded" placeholder="Runs Conceded"><br>
+            <input type="number" id="wickets" placeholder="Wickets"><br>
+            <input type="number" step="0.01" id="bowling_avg" placeholder="Bowling Average"><br>
+            <input type="number" step="0.01" id="economy_rate" placeholder="Economy Rate"><br>
+            <input type="number" step="0.01" id="bowling_strike" placeholder="Bowling Strike Rate"><br>
+            <input type="number" id="four_wicket_haul" placeholder="4 Wicket Hauls"><br>
+            <input type="number" id="five_wicket_hauls" placeholder="5 Wicket Hauls"><br>
+            
+            <button type="submit">Update Stats</button>
+        </form>
+    </div>
+</body>
+</html>
+>>>>>>> 428c8bdaee0fdf276b8897c3c7eae19a60144c26
