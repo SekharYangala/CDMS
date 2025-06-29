@@ -457,7 +457,6 @@ def update_player_stats():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-=======
 from flask import Flask, jsonify, request
 import mysql.connector
 from flask_cors import CORS
