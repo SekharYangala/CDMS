@@ -1,6 +1,12 @@
 <<<<<<< HEAD
 from flask import Flask, jsonify, request
 import mysql.connector
+import os
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('mysql://ipl_db_mn8l_user:password@host:port/databasename
+L')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 from flask_cors import CORS
 
 app = Flask(__name__)
