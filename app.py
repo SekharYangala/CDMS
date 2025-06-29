@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from flask import Flask, jsonify, request
 import mysql.connector
 import os
@@ -913,5 +912,4 @@ def update_player_stats():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
->>>>>>> 428c8bdaee0fdf276b8897c3c7eae19a60144c26
     app.run(debug=True, port=5000)
